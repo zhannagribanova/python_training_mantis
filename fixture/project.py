@@ -56,3 +56,16 @@ class ProjectHelper:
                 description = element.find_element_by_css_selector("td:nth-child(5)").text
                 self.project_cache.append(Project(name=name, description=description, identifier=identifier))
         return list(self.project_cache)
+
+    def delete_project_by_id(self, id):
+        wd = self.app.wd
+        self.open_project_page()
+        self.select_project_by_id(id)
+        # submit deletion
+        wd.find_element_by_xpath(u"//input[@value='Удалить проект']").click()
+        wd.find_element_by_xpath(u"//input[@value='Удалить проект']").click()
+        self.project_cache = None
+
+    def select_project_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector('a[href ^= "manage_proj_edit_page.php?project_id='+str(id)+'"]').click()
