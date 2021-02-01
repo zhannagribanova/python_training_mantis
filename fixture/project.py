@@ -51,7 +51,7 @@ class ProjectHelper:
             self.project_cache = []
             for element in wd.find_elements_by_xpath("//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/tbody/tr"):
                 name = element.find_element_by_css_selector("td:nth-child(1)").text
-                id_not_fetched = (element.find_element_by_xpath("//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/tbody/tr/td/a").get_attribute("href"))
+                id_not_fetched = element.find_element_by_css_selector('a[href ^= "manage_proj_edit_page.php?project_id="]').get_attribute("href")
                 identifier = id_not_fetched.replace("http://localhost/mantisbt-2.24.4/manage_proj_edit_page.php?project_id=", "")
                 description = element.find_element_by_css_selector("td:nth-child(5)").text
                 self.project_cache.append(Project(name=name, description=description, identifier=identifier))
