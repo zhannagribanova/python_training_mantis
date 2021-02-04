@@ -1,11 +1,12 @@
 from model.project import Project
+import time
 
 
-def test_add_project(app, db, json_project, check_ui):
+def test_add_project(app, json_project, check_ui, config):
     project = json_project
-    old_projects = db.get_project_list()
+    old_projects = app.soap.get_project_list(username=config['web']["username"], password=config['web']["password"])
     app.project.create(project)
-    new_projects = db.get_project_list()
+    new_projects = app.soap.get_project_list(username=config['web']["username"], password=config['web']["password"])
     old_projects.append(project)
     assert sorted(old_projects, key=Project.id_or_max) == sorted(new_projects, key=Project.id_or_max)
 
