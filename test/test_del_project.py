@@ -6,10 +6,12 @@ from random import randint
 def test_delete_some_project(app, db, check_ui, config):
     if len(db.get_project_list()) == 0:
         app.group.create(Project(name='Test'+str(randint(1, 100000)), description='description'+str(randint(1, 100000))))
-    old_projects = app.soap.get_project_list(username=config['web']["username"], password=config['web']["password"])
+    old_projects = app.soap.get_project_list(username=config['web']["username"], password=config['web']["password"],
+                                             baseURL=config['web']['baseURL'])
     project = random.choice(old_projects)
     app.project.delete_project_by_id(project.identifier)
-    new_projects = app.soap.get_project_list(username=config['web']["username"], password=config['web']["password"])
+    new_projects = app.soap.get_project_list(username=config['web']["username"], password=config['web']["password"],
+                                             baseURL=config['web']['baseURL'])
     old_projects.remove(project)
     assert old_projects == new_projects
 

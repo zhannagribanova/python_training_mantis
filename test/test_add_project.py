@@ -4,9 +4,11 @@ import time
 
 def test_add_project(app, json_project, check_ui, config):
     project = json_project
-    old_projects = app.soap.get_project_list(username=config['web']["username"], password=config['web']["password"])
+    old_projects = app.soap.get_project_list(username=config['web']["username"], password=config['web']["password"],
+                                             baseURL=config['web']['baseURL'])
     app.project.create(project)
-    new_projects = app.soap.get_project_list(username=config['web']["username"], password=config['web']["password"])
+    new_projects = app.soap.get_project_list(username=config['web']["username"], password=config['web']["password"],
+                                             baseURL=config['web']['baseURL'])
     old_projects.append(project)
     assert sorted(old_projects, key=Project.id_or_max) == sorted(new_projects, key=Project.id_or_max)
 
